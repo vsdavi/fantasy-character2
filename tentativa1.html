@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fantasy Character Maker</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>🌟 Fantasy Character Maker 🌈</h1>
+        <p>Crie seu personagem e descubra uma história mágica!</p>
+    </header>
+
+    <main>
+        <section id="create">
+            <h2>🎨 Criar Personagem</h2>
+            <form id="character-form">
+                <label for="name">Nome do Personagem:</label>
+                <input type="text" id="name" name="name" required>
+
+                <button type="submit">Gerar História e Pontos</button>
+            </form>
+        </section>
+
+        <section id="result">
+            <h2>🌟 Seu Personagem</h2>
+            <div id="character-output">
+                <p>Preencha o nome do personagem para começar!</p>
+            </div>
+        </section>
+
+        <section id="top-characters">
+            <h2>🏆 Top Personagens</h2>
+            <ul id="ranking">
+                <!-- Os personagens com mais pontos aparecerão aqui -->
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Fantasy Character Maker 🌟 Feito com 💖</p>
+    </footer>
+
+    <script>
+        // Lista de histórias aleatórias
+        const historias = [
+            "Descobriu uma ilha mágica e se tornou seu guardião!",
+            "É um(a) aventureiro(a) lendário(a) que derrotou um dragão gigante.",
+            "É conhecido(a) como o(a) maior herói/heróina de um reino distante.",
+            "Tem o poder de controlar os elementos e salvou sua vila.",
+            "É um(a) alquimista que transformou chumbo em ouro!",
+            "Se uniu a uma guilda de magos e agora explora dimensões desconhecidas."
+        ];
+
+        // Lista de personagens criados
+        const personagens = [];
+
+        document.getElementById('character-form').addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            // Captura o nome do personagem
+            const nome = document.getElementById('name').value.trim();
+            if (!nome) {
+                alert("Por favor, insira um nome para o personagem.");
+                return;
+            }
+
+            // Gera uma história e pontos aleatórios
+            const historia = historias[Math.floor(Math.random() * historias.length)];
+            const pontos = Math.floor(Math.random() * 1000) + 1;
+
+            // Cria o personagem e exibe
+            const personagem = { nome, historia, pontos };
+            personagens.push(personagem);
+
+            // Atualiza a exibição
+            atualizarPersonagem(personagem);
+            atualizarRanking();
+
+            // Limpa o campo de entrada
+            document.getElementById('name').value = '';
+        });
+
+        function atualizarPersonagem(personagem) {
+            const output = document.getElementById('character-output');
+            output.innerHTML = `
+                <h3>${personagem.nome}</h3>
+                <p>História: ${personagem.historia}</p>
+                <p>Pontos: ${personagem.pontos}</p>
+            `;
+        }
+
+        function atualizarRanking() {
+            const ranking = document.getElementById('ranking');
+            ranking.innerHTML = '';
+
+            // Ordena por pontos e exibe os melhores
+            personagens.sort((a, b) => b.pontos - a.pontos).forEach((p) => {
+                const item = document.createElement('li');
+                item.textContent = `${p.nome} - ${p.pontos} pontos`;
+                ranking.appendChild(item);
+            });
+        }
+    </script>
+</body>
+</html>
